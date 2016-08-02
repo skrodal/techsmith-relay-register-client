@@ -1,0 +1,286 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>TechSmith Relay — Opprett konto</title>
+        <meta name="author" content="Simon Skrødal">
+        
+        <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+        <link href="vendor/uninett/theme/css/uninett.css" rel="stylesheet">
+
+        <style type="text/css"> .modal-backdrop {
+	        opacity: 0.8 !important;
+        } </style>
+        
+    </head>
+    <body style="padding-top: 0px;">
+
+        <!-- Top bar -->
+        <nav class="navbar navbar">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" href="#"><img src="vendor/uninett/theme/images/UNINETT_logo.svg" alt="UNINETT AS" type="image/svg+xml"></a>
+                </div>
+                <button type="button" class="btn btn-default navbar-btn pull-right" onclick="DP_AUTH.logout()"><span class="glyphicon glyphicon-log-out"></span> Logg ut</button>
+            </div>
+        </nav>
+
+        <!-- While XHRing -->
+        <div id="loadView" class="container">
+            <h1>Henter innhold, vennligst vent...</h1>
+        </div>
+
+        <!-- OPS! The API is in test mode -->
+        <div id="testModeView" class="container" style="display: none;">
+            <div class="alert alert-info" role="alert">
+                <strong>OBS!</strong> Tjenesten er i testmodus! Ingen kontoer vil bli opprettet i prodmiljø — bruker <span class="relayVersionNumber"><!-- xhr --></span>
+            </div>
+        </div>
+
+        <!-- OPS! The API is in test mode -->
+        <div id="errorView" class="container" style="display: none;">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <h3 class="panel-title">Vi har et problem...</h3>
+                </div>
+                <div class="panel-body">
+                    <div class="alert alert-warning" role="alert">
+                        <p><strong>
+                            <span id="errorTitle"><!--xhr--></span>
+                        </strong></p>
+                        <p id="errorMessage"><!--xhr--></p>
+                    </div>
+                </div>
+                <div id="errorEmail" class="panel-footer"><!--xhr--></div>
+            </div>
+        </div>
+
+        <!-- OPS!  User already has an account -->
+        <div id="hasAccountView" class="container" style="display: none;">
+            <!-- Body -->
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="row">
+                        <!-- Left col -->
+                        <div class="col-sm-4">
+                                <p><strong>Brukernavnet ditt er allerede registrert i tjenesten!</strong></p>
+                                <p>Har du glemt passordet ditt? Du kan <a href="https://relay.uninett.no/relay/ForgotPassword.aspx">sette nytt passord her</a>.</p>
+                                <p>Ditt brukernavn er <code class="relayUserName"><!-- xhr --></code></p>
+                        </div>
+                        <!-- Right col -->
+                        <div class="col-sm-8">
+                            <div class="panel panel-default">
+                                <!-- Heading -->
+                                <div class="panel-heading">Følgende er registrert på din konto i TechSmith Relay:</div>
+                                <!-- Body -->
+                                <div class="panel-body table-responsive">
+                                    <!-- Table -->
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td>Navn: </td>
+                                            <td><code class="relayUserFullName"><!-- xhr --></code></td>
+                                        </tr>
+                                        <tr>
+                                            <td>E-post: </td>
+                                            <td><code class="relayUserEmail"><!-- xhr --></code></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tilhørighet: </td>
+                                            <td><code class="relayUserAffiliation"><!-- xhr --></code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Brukernavn:</strong> </td>
+                                            <td><strong><code class="relayUserName"><!-- xhr --></code></strong></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Create account -->
+        <div id="mainView" class="container" style="display: none;">
+            <!-- Header -->
+            <div class="jumbotron">                
+                <!-- Profile -->
+                <div class="pull-right">
+                    <center>
+                        <img class="userProfilePhoto img-circle" src="" width="80" height="80" alt=""><!-- xhr -->
+                        <div class="caption" style="color: white;">
+                            <small><span class="userFullName"><!-- xhr --></span></small><br>
+                        </div>
+                    </center>
+                </div>
+                <!-- Title -->
+                <div class="container">
+                    <h1>TechSmith Relay <span style="color: white; font-size: 16px;"><sub class="relayVersionNumber"><!-- xhr --></sub></span> <br><small>— opprett din konto</small></h1>
+                </div>
+             </div>
+
+            <!-- Body -->
+            <div class="panel">
+                <div class="panel-body">
+                    <!-- Info row -->
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <p>Hei <span class="userFirstName"><!-- xhr --></span></p>
+                            <p>Din konto er klar til å bli opprettet med følgende informasjon hentet fra ditt lærested:</p>
+                        </div>
+                     </div>
+
+                    <!-- Account row -->
+                    <div class="row">
+                        <!-- Left col -->
+                        <div class="col-sm-8">
+                            <div class="panel panel-default">
+                                <!-- Heading -->
+                                <div class="panel-heading">Følgende vil knyttes til din konto:</div>
+                                <!-- Body -->
+                                <div class="panel-body table-responsive">                            
+                                    <!-- Table -->
+                                    <table class="table table-bordered">
+                                        <tr>
+                                            <td>Navn: </td>
+                                            <td><code class="userFullName"><!-- xhr --></code></td>
+                                        </tr>
+                                        <tr>
+                                            <td>E-post: </td>
+                                            <td><code class="userEmail"><!-- xhr --></code></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tilknytning: </td>
+                                            <td><code class="userAffiliation"><!-- xhr --></code></td>
+                                        </tr>
+                                        <tr>
+                                            <td><strong>Brukernavn:</strong> </td>
+                                            <td><strong><code class="userName"><!-- xhr --></code></strong></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <!-- Footer -->
+                                <div class="panel-footer">
+                                    <span class="text-muted small"><em>* Passord vil autogenereres og kan endres ved første pålogging</em></span>
+                                </div> 
+                            </div>
+                        </div>
+
+                        <!-- Right col -->
+                        <div class="col-sm-4">
+                            <div class="alert alert-warning" role="alert">
+                                <p>
+                                    <strong>Viktig:</strong> Ikke opprett ny konto dersom informasjonen om deg er feil eller mangelfull (f.eks. <code>tilknytning</code> er feil). 
+                                    Ta heller kontakt med brukerstøtte ved ditt lærested slik at de kan oppdatere informasjonen om deg i sine systemer først.  
+                                </p>  
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- EULA -->
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <div class="panel panel-default">
+                                <div class="panel-heading">Brukervilkår</div>
+                                <div class="panel-body">
+                                    <div id="eula" class="panel-body pre-scrollable" style="height: 120px;">
+                                        <p>Gjennom en avtale med UNINETT, abonnerer ditt l&aelig;rested p&aring; TechSmith Relay. Tjenesten tilrettelegger for en meget enkel og elegant m&aring;te &aring; gj&oslash;re opptak av presentasjoner og forelesninger. Opptak kan gj&oslash;res p&aring; din datamaskin (skjerm, lyd og video) eller mobil (lyd og video).</p>
+                                        <p>F&oslash;r du kan ta i bruk TechSmith Relay, m&aring; du godta vilk&aring;rene i denne erkl&aelig;ringen. Erkl&aelig;ringen inneholder b&aring;de vilk&aring;r som blir juridisk bindende etter at de er godtatt, men ogs&aring; annen viktig informasjon. Vi oppfordrer deg derfor til &aring; lese n&oslash;ye gjennom teksten nedenfor.</p>
+                                        <p>Opptakene du gj&oslash;r med TechSmith Relay lagres p&aring; en tjener som driftes av UNINETT etter avtale med ditt l&aelig;rested. Du eier dette innholdet, og er ansvarlig for at  det er i henhold til norsk lov, herunder at det verken krenker tredjeparters kopi- opphavsrett eller &oslash;vrige immaterielle rettigheter.</p>
+                                        <p>F&oslash;r du gj&oslash;r opptak av en presentasjon, forelesning eller liknende, m&aring; du orientere de som er tilstede om at opptaket vil bli gjort, og at de gjennom sin deltakelse vil kunne bli akt&oslash;r i opptaket. &Oslash;nsker du som student &aring; gj&oslash;re opptak av en forelesning, m&aring; du f&oslash;rst innhente tillatelse fra foreleseren. Alle videoer b&oslash;r ogs&aring; merkes med bruksvilk&aring;r, samt hvem som skal angis som opphavsmann for opptaket.</p>
+                                        <p>Ditt l&aelig;rested vil kunne opplyse deg om hvor du kan f&aring; ytterligere veiledning om opphavs-rettslig sp&oslash;rsm&aring;l. Du kan ogs&aring; bruke <a href="http://delrett.no/">DelRett</a> som informasjonskilde.</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="checkbox">
+                                <label>
+                                    <input id="chkEulaAccept" type="checkbox"> Jeg aksepterer vilkårene
+                                </label>
+                            </div>
+
+                            <div id="eulaAlert" class="alert alert-danger" style="display:none" role="alert"> <strong><span class="glyphicon glyphicon-arrow-up"></span>&nbsp;&nbsp;</strong> Du må lese og godjenne brukervilkårene før du kan lage kontoen din.</div>
+                            <button id="btnCreateAccount" type="button" class="btn btn-success btn-lg" data-loading-text="Lager konto...">Lag konto</button>
+                            <br><br>
+                        </div>
+
+                        <div class="col-sm-4">
+                            <div class="alert alert-info orgContactDetails" role="alert"><!-- xhr --></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer text-muted small">
+                    Du kan begynne å bruke TechSmith Relay umiddelbart etter at kontoen er opprettet.
+                </div>
+            </div>
+
+            <footer class="footer">
+                <em><p class="text-muted small">— Utviklet og levert av UNINETT AS</p></em>
+            </footer>
+        </div>
+
+        <!-- Account create — Modal -->
+        <div class="modal fade" id="mdAccountDetails" tabindex="-1" role="dialog" aria-labelledby="mdTitle">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content">
+              <div class="modal-header" style="background-color: #fafafa;">
+                <h4 class="modal-title" style="color: #333;" id="mdTitle"><span class="glyphicon glyphicon-star" style="color: gold;"></span> Din konto er klar til bruk</h4>
+              </div>
+              <div class="modal-body table-responsive">
+                <p>Vi har sendt deg en e-post med mer informasjon om hvordan du kommer i gang.</p>
+
+                <table class="table table-bordered">
+                    <tr>
+                        <td>Navn: </td>
+                        <td><span class="userDisplayName"><!-- xhr --></span></td>
+                    </tr>
+                    <tr>
+                        <td>E-post: </td>
+                        <td><span class="userEmail"><!-- xhr --></span></td>
+                    </tr>
+                    <tr>
+                        <td>Tilknytning: </td>
+                        <td><span class="userAffiliation"><!-- xhr --></span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Brukernavn:</strong> </td>
+                        <td><strong><code class="userName"><!-- xhr --></code></strong></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Passord:</strong> </td>
+                        <td><strong><code class="userPassword"><!-- xhr --></code></strong></td>
+                    </tr>
+                </table>
+
+                <p>
+                    <strong>Noter deg ditt brukernavn og passord</strong> — <em>passordet er midlertidig og bør byttes ved første pålogging</em>.
+                </p>
+
+              </div>
+              <div class="modal-footer">
+                <span>Logg på for første gang <span class="glyphicon glyphicon-arrow-right"></span> </span> <a type="button" href="https://relay.uninett.no" target="_blank" class="btn btn-success">Gå til TechSmith Relay</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+        <script src="vendor/uninett/jso/jso.js"></script>
+
+        <script src="app/js/lib/utils.js"></script>
+        <script src="app/js/auth/dataporten_auth.js"></script>
+
+        <script src="app/js/api_consumers/dataporten.js"></script>
+        <script src="app/js/api_consumers/relay.js"></script>
+        <script src="app/js/api_consumers/relay_user.js"></script>
+        <script src="app/js/api_consumers/relay_register.js"></script>
+        <script src="app/js/main.js"></script>
+    </body>
+</html>
