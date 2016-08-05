@@ -3,7 +3,7 @@
 **NOTE: Created to suit higher education in Norway; makes use of Dataporten (UNINETT) for client/user (O)Authentication.** 
 
 This Client facilitates self-service account registration with TechSmith Relay (Self-Hosted instance). 
-It requires access to the techsmith-relay-register-api to be of any use (also configured with Dataporten).
+It requires access to the techsmith-relay-register-api to be of any use (also configured with Dataporten) — it is the API that talks to the various service endpoints.
 
 ## Installation
 
