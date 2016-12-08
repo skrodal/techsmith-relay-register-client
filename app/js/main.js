@@ -15,7 +15,6 @@ var APP = (function () {
 					return;
 				}
 				// All good, populate user details and show main view
-				_updateSupportContactFromKindUI();
 				_updateMainView();
 			});
 		});
@@ -49,16 +48,6 @@ var APP = (function () {
 		}
 
 	});
-
-	function _updateSupportContactFromKindUI(){
-		$.when(RELAY.getSubscriberDetailsXHR()).done(function (data) {
-			$('.orgContactDetails').html(
-				'<p><strong>'+data.contact_support.navn+'</strong>: </p>' +
-				'<li>' + data.contact_support.e_post + '</li>' +
-				'<li>' + data.contact_support.direkte_telefon + '</li>'
-			);
-		});
-	}
 
 	function _updateMainView(){
 		$('.userFullName').text(DATAPORTEN.user().name.full);
