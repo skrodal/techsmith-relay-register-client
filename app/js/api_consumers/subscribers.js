@@ -20,7 +20,7 @@ var SUBSCRIBERS = (function () {
 	function createSubscriberXHR(org, affiliation){
 		console.log(affiliation);
 		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay_register + "subscribers/create/" + org + "/affiliation/" + affiliation + "/",
+			url: DP_AUTH.config().api_endpoints.relay_register + "subscribers/create/" + org + "/affiliation_access/" + affiliation + "/",
 			method: "POST"
 		}).pipe(function (obj) {
 			return obj.data;
@@ -44,7 +44,7 @@ var SUBSCRIBERS = (function () {
 
 	function setSubscriberAffiliationAccessXHR(org, affiliation){
 		return DP_AUTH.jso().ajax({
-			url: DP_AUTH.config().api_endpoints.relay_register + "subscribers/update/" + org + "/affiliation/" + affiliation + "/",
+			url: DP_AUTH.config().api_endpoints.relay_register + "subscribers/update/" + org + "/affiliation_access/" + affiliation + "/",
 			method: "POST"
 		}).pipe(function (obj) {
 			return obj.data;
