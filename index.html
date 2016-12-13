@@ -6,13 +6,9 @@
         
         <link href="vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="vendor/uninett/theme/css/uninett.css" rel="stylesheet">
-
-        <style type="text/css"> .modal-backdrop {
-	        opacity: 0.8 !important;
-        } </style>
-        
+        <link rel="stylesheet" href="app/css/main.css">
     </head>
-    <body style="padding-top: 0px;">
+    <body>
 
         <!-- Top bar -->
         <nav class="navbar navbar">
@@ -29,14 +25,14 @@
             <h1>Henter innhold, vennligst vent...</h1>
         </div>
 
-        <!-- OPS! The API is in test mode -->
+        <!-- OBS! The API is in test mode -->
         <div id="testModeView" class="container" style="display: none;">
             <div class="alert alert-info" role="alert">
                 <strong>OBS!</strong> Tjenesten er i testmodus! Ingen kontoer vil bli opprettet i prodmiljø — bruker <span class="relayVersionNumber"><!-- xhr --></span>
             </div>
         </div>
 
-        <!-- OPS! The API is in test mode -->
+        <!-- OBS! API responded with an error -->
         <div id="errorView" class="container" style="display: none;">
             <div class="panel panel-danger">
                 <div class="panel-heading">
@@ -54,7 +50,7 @@
             </div>
         </div>
 
-        <!-- OPS!  User already has an account -->
+        <!-- OBS!  User already has an account -->
         <div id="hasAccountView" class="container" style="display: none;">
             <!-- Body -->
             <div class="panel">
@@ -277,6 +273,99 @@
           </div>
         </div>
 
+        <!-- Administrator view: edit subscribers -->
+        <div id="subscribersView" class="container collapse">
+	        <h3><span style="color: gold;" class="glyphicon glyphicon-star"></span> Tilgangsstyring <span style="color: gold;" class="glyphicon glyphicon-star"></span></h3>
+	        <!-- Body -->
+            <div class="panel">
+                <div class="panel-body">
+                    <div class="row">
+                        <!-- Left col -->
+                        <div class="col-sm-4">
+                            <p><strong>Ahoy Admin!</strong></p>
+                            <p>Som ansatt ved UNINETT har du her mulighet til å styre hvilke læresteder som skal ha tilgang til kontooppretteren.</p>
+                            <p>Operasjoner som kan gjennomføres:</p>
+                            <ul>
+	                            <li>Legge til et nytt lærested (abonnent) som skal ha tilgang</li>
+	                            <li>Skru av tilgang til et lærested (eks. ved terminering av kontrakt/fusjonering)</li>
+	                            <li>Endre hvem som skal ha tilgang ved et lærested (kun ansatte eller ansatte OG studenter</li>
+                            </ul>
+	                        <p>For å bevare historikk er det ikke mulig å slette læresteder fra tabellen.</p>
+
+	                        <div class="small">
+		                        <p>Tilgangsstyringen er fullstendig løsrevet fra Kind og bruker en dedikert tabell i UNINETTs DB cluster (MySQL).</p>
+	                            <p>Kildekode for Klient/API finner du på GitHub:</p>
+	                            <ul>
+		                            <li>Klient: <a href="https://github.com/skrodal/techsmith-relay-register-client">https://github.com/skrodal/techsmith-relay-register-client</a></li>
+		                            <li>API: <a href="https://github.com/skrodal/techsmith-relay-register-api">https://github.com/skrodal/techsmith-relay-register-api</a></li>
+	                            </ul>
+	                            <p>API og Klient er begge registrert i Dataporten.</p>
+	                        </div>
+
+                        </div>
+                        <!-- Right col -->
+                        <div class="col-sm-8">
+                            <div class="panel panel-default">
+                                <!-- Heading -->
+                                <div class="panel-heading">Læresteder som har (hatt) tilgang til tjenesten</div>
+                                <!-- Body -->
+                                <div class="panel-body">
+		                            <p>
+			                            Tilgang styres med Feide/Dataportens attributt <code>eduPersonPrimaryAffiliation</code> og
+			                            det forventes at pålogget bruker har verdi 'employee' eller 'student'
+			                            (jfr. <a href="https://www.feide.no/attribute/edupersonprimaryaffiliation" target="_blank">Feide dokumentasjon</a>).
+		                            </p>
+	                                <p>
+		                                <code>employee</code> :: kun ansatte kan opprette konto <br>
+                                        <code>member</code> :: ansatte og studenter kan opprette konto
+	                                </p>
+                                    <div class="loader center-block ajax"></div>
+                                    <div id="subscriberEditContainer" class="collapse">
+
+                                        <!-- Add org -->
+                                        <p>Legg til ny abonnent: </p>
+                                        <div class="input-group">
+                                            <input id="txtCreateSubscriberOrg" type="text" class="form-control" aria-label="Lærested" placeholder="org.no">
+                                            <span class="input-group-addon">
+                                                 <input id="chkCreateSubscriberAffiliationAccess" type="checkbox" aria-label="Studenttilgang"> Studenttilgang?
+                                            </span>
+                                            <span class="input-group-btn">
+                                                <button id="btnCreateSubscriberSubmit" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-ok"></span> Ok!</button>
+                                            </span>
+
+                                        </div><!-- /input-group -->
+
+                                        <br>
+                                        <!-- Table -->
+                                        <table id="tblSubscribers" class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th>Org</th>
+                                                    <th>Hvem har tilgang</th>
+                                                    <th>Aktiv</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody><!-- --></tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+	        <div id="tblDropdownTemplate" class="hidden">
+				<div class="btn-group">
+					<button type="button" class="btn btn-sm dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+						<span class="currentValue"></span> <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu">
+					</ul>
+				</div>
+	        </div>
+        </div>
+
 
         <script src="vendor/jquery/jquery.min.js"></script>
         <script src="vendor/bootstrap/js/bootstrap.min.js"></script>
@@ -289,6 +378,7 @@
         <script src="app/js/api_consumers/relay.js"></script>
         <script src="app/js/api_consumers/relay_user.js"></script>
         <script src="app/js/api_consumers/relay_register.js"></script>
+        <script src="app/js/api_consumers/subscribers.js"></script>
         <script src="app/js/main.js"></script>
     </body>
 </html>

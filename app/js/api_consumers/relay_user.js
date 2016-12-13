@@ -46,6 +46,9 @@ var RELAY_USER = (function () {
 		},
 		accountInfo: function(){
 			return accountInfo;
+		},
+		isSuperAdmin: function () {
+			return accountInfo.isSuperAdmin;
 		}
 	}
 })();
