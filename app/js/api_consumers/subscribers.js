@@ -18,7 +18,6 @@ var SUBSCRIBERS = (function () {
 	}
 
 	function createSubscriberXHR(org, affiliation){
-		console.log(affiliation);
 		return DP_AUTH.jso().ajax({
 			url: DP_AUTH.config().api_endpoints.relay_register + "subscribers/create/" + org + "/affiliation_access/" + affiliation + "/",
 			method: "POST"
@@ -54,7 +53,17 @@ var SUBSCRIBERS = (function () {
 		});
 	}
 
-
+	function deleteSubscriberXHR(org){
+		return DP_AUTH.jso().ajax({
+			url: DP_AUTH.config().api_endpoints.relay_register + "subscribers/delete/" + org + "/",
+			method: "DELETE"
+		}).pipe(function (obj) {
+			return obj.data;
+		}).fail(function (jqXHR, textStatus, error) {
+			UTILS.xhrAlert(jqXHR.statusText, jqXHR.responseJSON.message);
+			return false;
+		});
+	}
 
 
 	return {
@@ -69,8 +78,10 @@ var SUBSCRIBERS = (function () {
 		},
 		setSubscriberAffiliationAccessXHR: function (org, affiliation) {
 			return setSubscriberAffiliationAccessXHR(org, affiliation);
+		},
+		deleteSubscriberXHR: function (org) {
+			return deleteSubscriberXHR(org);
 		}
-
 	}
 })();
 

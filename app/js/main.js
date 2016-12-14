@@ -131,6 +131,7 @@ var APP = (function () {
 						'<td>' + $dropDownAffiliation.html() + '</td>' +
 						//'<td>' + orgObj.active + '</td>' +
 						'<td>' + $dropDownAccess.html() + '</td>' +
+						'<td class="text-center"><button class="btnDeleteOrg btn-link uninett-fontColor-red" type="button" data-org="' + orgObj.org + '"><span class="glyphicon glyphicon-remove"></span></button></td>' +
 						'</tr>';
 				});
 				$('#tblSubscribers').find('tbody').html(tblBody);
@@ -200,9 +201,9 @@ var APP = (function () {
 	/**
 	 * Create a new subscriber
 	 */
-	$('#btnCreateSubscriberSubmit').on('click', function () {
-		var affiliation_access = $('#chkCreateSubscriberAffiliationAccess').is(':checked') ? 'member' : 'employee';
-		var org = $('#txtCreateSubscriberOrg').val().toLowerCase();
+	$('#btnCreateOrgSubmit').on('click', function () {
+		var affiliation_access = $('#chkCreateOrgAffiliationAccess').is(':checked') ? 'member' : 'employee';
+		var org = $('#txtCreateOrg').val().toLowerCase();
 		var orgFormatText = "OBS! Orgnavnet følger ikke standard '.no' format!! \n \n";
 		if (org.length === 0) {
 			alert('Sukk... Du må jo skrive inn en org da...!');
@@ -220,4 +221,17 @@ var APP = (function () {
 		}
 	});
 
+	/**
+	 * Set active to 0 for org
+	 */
+	$('#tblSubscribers').on('click', 'button.btnDeleteOrg', function () {
+		var org = $(this).data('org');
+		if (confirm("Sikker på at du vil slette " + org + " fra tilgangslista? \n\nIKKE slett dersom lærestedet har brukt tjenesten (deaktiver heller).")) {
+			_subscriberProcessingStart();
+			$.when(SUBSCRIBERS.deleteSubscriberXHR(org))
+				.always(function () {
+					_showSubscribersView();
+				});
+		}
+	});
 })();

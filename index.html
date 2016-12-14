@@ -290,10 +290,18 @@
 	                            <li>Skru av tilgang til et lærested (eks. ved terminering av kontrakt/fusjonering)</li>
 	                            <li>Endre hvem som skal ha tilgang ved et lærested (kun ansatte eller ansatte OG studenter</li>
                             </ul>
-	                        <p>For å bevare historikk er det ikke mulig å slette læresteder fra tabellen.</p>
+	                        <p>
+                                For å bevare historikk, <strong>ikke slett læresteder fra tabellen</strong>! Selv om <code>uin.no</code> (og andre fusjonerte)
+                                ikke lenger eksisterer ligger det fortsatt mye publisert innhold på screencast med <code>uin.no</code> i path. Vi trenger
+                                denne historikken i andre tjenester for å kunne knytte innhold fra f.eks. <code>uin.no</code> til <code>nord.no</code>.
+                            </p>
 
 	                        <div class="small">
-		                        <p>Tilgangsstyringen er fullstendig løsrevet fra Kind og bruker en dedikert tabell i UNINETTs DB cluster (MySQL).</p>
+		                        <p>
+                                    I Dataporten har alle UH-institusjoner tilgang til å logge på tjenesten. Faktisk tilgang til å opprette konto er
+                                    imidlertid begrenset på en dedikert liste (som du kan redigere på denne siden). Kind er mao. ikke lenger involvert i det
+                                    hele tatt.
+                                </p>
 	                            <p>Kildekode for Klient/API finner du på GitHub:</p>
 	                            <ul>
 		                            <li>Klient: <a href="https://github.com/skrodal/techsmith-relay-register-client">https://github.com/skrodal/techsmith-relay-register-client</a></li>
@@ -325,16 +333,16 @@
                                         <!-- Add org -->
                                         <p>Legg til ny abonnent: </p>
                                         <div class="input-group">
-                                            <input id="txtCreateSubscriberOrg" type="text" class="form-control" aria-label="Lærested" placeholder="org.no">
+                                            <input id="txtCreateOrg" type="text" class="form-control" aria-label="Lærested" placeholder="org.no">
                                             <span class="input-group-addon">
-                                                 <input id="chkCreateSubscriberAffiliationAccess" type="checkbox" aria-label="Studenttilgang"> Studenttilgang?
+                                                 <input id="chkCreateOrgAffiliationAccess" type="checkbox" aria-label="Studenttilgang"> Studenttilgang?
                                             </span>
                                             <span class="input-group-btn">
-                                                <button id="btnCreateSubscriberSubmit" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-ok"></span> Ok!</button>
+                                                <button id="btnCreateOrgSubmit" class="btn btn-primary" type="button"><span class="glyphicon glyphicon-ok"></span> Ok!</button>
                                             </span>
-
                                         </div><!-- /input-group -->
-
+                                        <br>
+                                        <p>OBS! Sletting er tilgjengelig kun for å fjerne læresteder som enten ble lagt inn feil, eller som ikke har benyttet tjenesten!</p>
                                         <br>
                                         <!-- Table -->
                                         <table id="tblSubscribers" class="table table-bordered">
@@ -343,6 +351,7 @@
                                                     <th>Org</th>
                                                     <th>Hvem har tilgang</th>
                                                     <th>Aktiv</th>
+                                                    <th class="text-center">SLETT</th>
                                                 </tr>
                                             </thead>
                                             <tbody><!-- --></tbody>
